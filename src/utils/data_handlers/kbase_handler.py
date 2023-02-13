@@ -4,7 +4,7 @@ from src.utils.kbase_helpers.workspaceClient import Workspace
 
 class KBaseHandler(DataHandler):
 
-    def _fetch_obj_from_ws(self, obj_ref):
+    async def _fetch_obj_from_ws(self, obj_ref):
         item = self.ws.get_objects2({'objects': [{'ref': obj_ref}],
                                      'no_data': 0})['data'][0]
 
@@ -19,10 +19,11 @@ class KBaseHandler(DataHandler):
         self.ws_url = ws_url
         try:
             self.ws = Workspace(url=self.ws_url, token=self.auth_token)
+            self.ws.ver()
         except Exception as e:
             raise ValueError('Cannot connect to KBase Workspace client') from e
 
-    def fetch_data(self, pointer):
-        obj_info, obj_data = self._fetch_obj_from_ws(pointer)
+    async def fetch_data(self, pointer):
+        obj_info, obj_data = await self._fetch_obj_from_ws(pointer)
 
         return obj_info, obj_data

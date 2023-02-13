@@ -19,7 +19,7 @@ env:
 
 jobs:
 
-  collections_tests:
+  dataverse_tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
