@@ -45,7 +45,6 @@ jobs:
       run: |
         FILE=test/test.cfg
         sed -i "s/KBASE_TOKEN/${{ secrets.KBASE_AUTH_TOKEN }}/g" $FILE
-        cat test/test.cfg
 
     - name: Run tests
       shell: bash
