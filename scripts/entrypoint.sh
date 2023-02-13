@@ -1,8 +1,10 @@
 #!/bin/bash
 
-export DATAVERSE_DEPLOYMENT_CONFIG=collections_config.toml
+export DATAVERSE_DEPLOYMENT_CONFIG=dataverse_config.toml
 
-jinja collections_config.toml.jinja -X "^DATAVERSE_" > $DATAVERSE_DEPLOYMENT_CONFIG
+jinja dataverse_config.toml.jinja -X "^DATAVERSE_" > $DATAVERSE_DEPLOYMENT_CONFIG
+
+cat $DATAVERSE_DEPLOYMENT_CONFIG
 
 # FastAPI recommends running a single process service per docker container instance as below,
 # and scaling via adding more containers. If we need to run multiple processes, use guvicorn as
