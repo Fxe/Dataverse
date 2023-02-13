@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from src.utils.kbase_helpers.workspaceClient import Workspace
-from test.config_test import TestConfig
+from test.config_loader import TestConfig
 
 
 @pytest.fixture(scope="module")

@@ -6,7 +6,7 @@ import pytest
 import asyncio
 
 from src.utils.data_handlers.kbase_handler import KBaseHandler
-from test.config_test import TestConfig
+from test.config_loader import TestConfig
 
 
 @pytest.fixture(scope="module")
