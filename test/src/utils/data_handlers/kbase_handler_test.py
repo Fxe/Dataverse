@@ -6,7 +6,7 @@ import pytest
 import asyncio
 
 from src.utils.data_handlers.kbase_handler import KBaseHandler
-from test.config_loader import TestConfig
+from test.config_loader import Config
 
 
 @pytest.fixture(scope="module")
@@ -16,7 +16,7 @@ def setup_and_teardown():
 
     test_config_file = os.path.join(test_dir, 'test.cfg')
     with open(test_config_file, 'rb') as cfgfile:
-        cfg = TestConfig(cfgfile)
+        cfg = Config(cfgfile)
 
     cfg.print_config(sys.stdout)
 
