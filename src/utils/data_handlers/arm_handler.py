@@ -1,4 +1,4 @@
-from src.utils.data_handler import DataHandler
+from src.utils.data_handlers.data_handler import DataHandler
 
 
 class ARMHandler(DataHandler):
