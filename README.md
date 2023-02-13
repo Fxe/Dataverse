@@ -1,4 +1,8 @@
 # Dataverse
+
+[![Dataverse tests](https://github.com/EarthSystemsSciences/Dataverse/actions/workflows/test.yml/badge.svg)](https://github.com/EarthSystemsSciences/Dataverse/actions/workflows/test.yml)
+
+
 ESS data application
 
 
