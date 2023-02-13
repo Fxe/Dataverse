@@ -1,4 +1,4 @@
-from src.utils.esgf_handler import ESGFHandler
+from src.utils.data_handlers.esgf_handler import ESGFHandler
 
 
 def test_init():

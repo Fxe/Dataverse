@@ -14,6 +14,9 @@ on:
       - master
       - develop
 
+env:
+  KBASE_AUTH_TOKEN: ${{ secrets.KBASE_AUTH_TOKEN }}
+
 jobs:
 
   collections_tests:
@@ -37,6 +40,11 @@ jobs:
       run: |
         pip install pipenv
         pipenv sync --system --dev
+
+    - name: Set kbase_auth_token
+      run: |
+        FILE=test/test.cfg
+        sed -i "s/KBASE_TOKEN/${{ secrets.KBASE_AUTH_TOKEN }}/g" $FILE
 
     - name: Run tests
       shell: bash
