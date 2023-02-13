@@ -44,9 +44,7 @@ jobs:
     - name: Set kbase_auth_token
       run: |
         FILE=test/test.cfg
-#        LINE="kbase_auth_token = "$KBASE_AUTH_TOKEN""
         sed -i "s/TOKEN/${{ secrets.KBASE_AUTH_TOKEN }}/g" $FILE
-#        sed -i "s/^kbase_auth_token.*/$LINE/" $FILE
         cat test/test.cfg
 
     - name: Run tests
