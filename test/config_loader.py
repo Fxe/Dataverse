@@ -6,7 +6,7 @@ _SEC_SERVICE = "Service"
 _SEC_SERVICE_DEPS = "Service_Dependencies"
 
 
-class TestConfig:
+class Config:
     def __init__(self, config_file: BinaryIO):
         """
         Create the configuration parser.

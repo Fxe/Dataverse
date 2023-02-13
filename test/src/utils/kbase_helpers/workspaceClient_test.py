@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from src.utils.kbase_helpers.workspaceClient import Workspace
-from test.config_test import TestConfig
+from test.config_loader import Config
 
 
 @pytest.fixture(scope="module")
@@ -14,7 +14,7 @@ def setup_and_teardown():
 
     test_config_file = os.path.join(test_dir, 'test.cfg')
     with open(test_config_file, 'rb') as cfgfile:
-        cfg = TestConfig(cfgfile)
+        cfg = Config(cfgfile)
 
     yield cfg.kbase_workspace_url, cfg.kbase_auth_token
 
