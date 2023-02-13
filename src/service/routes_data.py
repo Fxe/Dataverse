@@ -46,8 +46,8 @@ class Root(BaseModel):
 
 
 class RetrievedData(BaseModel):
-    metadata: Optional[Any]
-    data: Optional[Any]
+    metadata: Optional[Any] = Field(example=["object_name", "object_version"])
+    data: Optional[Any] = Field(example={"object_data_field": "object_data"})
 
 
 @ROUTER_DATA.get("/", response_model=Root, include_in_schema=False)
