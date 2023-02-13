@@ -83,4 +83,4 @@ class KBaseHandler(DataHandler):
 
         obj_ref = f"{obj_info[6]}/{obj_info[0]}/{obj_info[4]}"
 
-        return obj_info, obj_ref
+        return obj_ref, obj_info

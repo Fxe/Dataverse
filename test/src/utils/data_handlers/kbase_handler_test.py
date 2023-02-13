@@ -56,7 +56,7 @@ async def test_save_data(setup_and_teardown):
     }
     wsid = 45460  # TODO: create a test workspace and use that instead
 
-    obj_info, obj_ref = await kbase_handler.save_data(wsid, obj_data)
+    obj_ref, obj_info = await kbase_handler.save_data(wsid, obj_data)
 
     assert obj_info[1] == 'test_obj'
     assert 'Empty.AType' in obj_info[2]
