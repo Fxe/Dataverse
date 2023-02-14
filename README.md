@@ -1,10 +1,9 @@
 # Dataverse
 
 [![Dataverse tests](https://github.com/EarthSystemsSciences/Dataverse/actions/workflows/test.yml/badge.svg)](https://github.com/EarthSystemsSciences/Dataverse/actions/workflows/test.yml)
-
+[![Create and publish a Docker image](https://github.com/EarthSystemsSciences/Dataverse/actions/workflows/publish_image.yml/badge.svg)](https://github.com/EarthSystemsSciences/Dataverse/actions/workflows/publish_image.yml)
 
 ESS data application
-
 
 This project aims to build a web application using the FastAPI 
 framework to interface with [KBase](https://www.kbase.us/), 
@@ -16,7 +15,7 @@ allowing retrieval and saving of data objects.
 ## Usage
 
 OpenAPI documentation is provided at the `/docs` endpoint of the server,
- and codes are listed in [errors.py](src/service/errors.py).
+ and error codes are listed in [errors.py](src/service/errors.py).
 
 ## Development
 
