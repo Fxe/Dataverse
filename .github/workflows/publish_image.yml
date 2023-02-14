@@ -10,6 +10,11 @@
 name: Create and publish a Docker image
 
 on:
+  push:
+    # run workflow when merging to main
+    branches:
+      - main
+      - master
   release:
     types: [published]
 
