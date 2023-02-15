@@ -1,7 +1,6 @@
 """
 Routes for general dataverse endpoints
 """
-import json
 from typing import Any, Optional
 
 from fastapi import APIRouter, Request, Body
