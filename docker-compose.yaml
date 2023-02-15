@@ -14,3 +14,8 @@ services:
     environment:
 #      - DATAVERSE_SERVICE_ROOT_PATH=/dataverse
       - DATAVERSE_KBASE_WS_URL=https://kbase.us/services/ws
+
+networks:
+  ess-jupyterhub-network:
+    external: true
+    name: ess-job-manager-network
