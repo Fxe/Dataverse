@@ -1,0 +1,16 @@
+version: '3'
+
+# This docker-compose is for developer convenience, not for running in production.
+
+services:
+
+  # For running the FastAPI server
+  dataverse_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 30015:8000
+    environment:
+#      - DATAVERSE_SERVICE_ROOT_PATH=/dataverse
+      - DATAVERSE_KBASE_WS_URL=https://kbase.us/services/ws

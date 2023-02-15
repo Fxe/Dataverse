@@ -62,7 +62,7 @@ class KBaseHandler(DataHandler):
 
         return obj_info
 
-    def __init__(self, auth_token, ws_url="https://kbase.us/services/ws"):
+    def __init__(self, auth_token, ws_url="https://ci.kbase.us/services/ws"):
         super().__init__('KBase')
         self.auth_token = auth_token
         self.ws_url = ws_url

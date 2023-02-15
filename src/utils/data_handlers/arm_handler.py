@@ -1,3 +1,6 @@
+import tempfile
+from pathlib import Path
+
 import act
 import pandas as pd
 import xarray as xr
@@ -17,16 +20,18 @@ class ARMHandler(DataHandler):
         return df
 
     async def _fetch_obj_from_arm(self, datastream, date):
-        try:
-            # https://arm-doe.github.io/ACT/API/generated/act.discovery.download_data.html
-            files = act.discovery.download_data(self.arm_username, self.arm_auth_token, datastream, date, date)
-        except Exception as e:
-            raise ValueError(f"Could not fetch data from ARM: {str(e)}") from e
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            try:
+                # https://arm-doe.github.io/ACT/API/generated/act.discovery.download_data.html
+                files = act.discovery.download_data(self.arm_username, self.arm_auth_token, datastream, date, date,
+                                                    output=tmp_dir)
+            except Exception as e:
+                raise ValueError(f"Could not fetch data from ARM: {str(e)}") from e
 
-        # Process each netCDF file in the directory and concatenate the resulting DataFrames
-        df_list = [self._process_cdf_file(file_path) for file_path in files]
+            # Process each netCDF file in the directory and concatenate the resulting DataFrames
+            df_list = [self._process_cdf_file(file_path) for file_path in files]
+
         combined_df = pd.concat(df_list)
-
         data = combined_df.astype(str).to_dict(orient='records')
 
         return data

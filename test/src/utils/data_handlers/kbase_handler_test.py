@@ -34,13 +34,13 @@ def test_init(setup_and_teardown):
 async def test_fetch_data(setup_and_teardown):
     ws_url, auth_token = setup_and_teardown
     kbase_handler = KBaseHandler(auth_token, ws_url=ws_url)
-    pointer = '101147/7'  # public narrative https://narrative.kbase.us/narrative/101147
+    pointer = '35084/455'  # public narrative https://ci.kbase.us/narrative/35084
     obj_info, obj_data = await kbase_handler.fetch_data(pointer)
 
-    assert obj_info[1] == 'Ath_hy5_R1'
-    assert 'KBaseFile.SingleEndLibrary' in obj_info[2]
+    assert obj_info[1] == 'test_sample_set'
+    assert 'KBaseSets.SampleSet' in obj_info[2]
 
-    assert 'gc_content' in obj_data
+    assert 'samples' in obj_data
 
 
 @pytest.mark.asyncio
@@ -54,7 +54,7 @@ async def test_save_data(setup_and_teardown):
         'name': 'test_obj',
         'data': {'foo': 15}
     }
-    wsid = 45460  # TODO: create a test workspace and use that instead
+    wsid = 35084  # TODO: create a test workspace and use that instead
 
     obj_ref, obj_info = await kbase_handler.save_data(wsid, obj_data)
 
