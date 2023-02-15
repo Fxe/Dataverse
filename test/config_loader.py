@@ -19,6 +19,8 @@ class Config:
         _check_missing_section(self.config, _SEC_SERVICE_DEPS)
         self.kbase_workspace_url = _get_string_required(self.config, _SEC_SERVICE_DEPS, "kbase_workspace_url")
         self.kbase_auth_token = _get_string_required(self.config, _SEC_SERVICE_DEPS, "kbase_auth_token")
+        self.arm_username = _get_string_required(self.config, _SEC_SERVICE_DEPS, "arm_username")
+        self.arm_auth_token = _get_string_required(self.config, _SEC_SERVICE_DEPS, "arm_auth_token")
 
     def print_config(self, output: TextIO):
         """
