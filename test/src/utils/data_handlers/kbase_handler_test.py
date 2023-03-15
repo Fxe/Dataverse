@@ -63,5 +63,5 @@ async def test_save_data(setup_and_teardown):
 
     assert obj_ref.split('/')[0] == str(wsid)
 
-    print(obj_ref)
     print(obj_info)
+    print(obj_data)
