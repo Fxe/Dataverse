@@ -36,9 +36,16 @@ PYTHONPATH=. pytest test
 The server can be run locally using Docker:
 
 ```commandline
+
+docker-compose build
+docker-compose up
+```
+
+```commandline
 docker build -t dataverse .
 docker stop dataverse; docker rm dataverse
 docker run -d --name dataverse \
-	-p 8000:8000 dataverse
+	-p 30015:8000 dataverse
 ```
-The application can then be accessed at http://localhost:8000/docs.
+
+The application can then be accessed at http://localhost:30015/docs.
