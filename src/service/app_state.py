@@ -13,6 +13,7 @@ from src.utils.kbase_helpers.workspaceClient import Workspace
 
 # The main point of this module is to handle all the stuff we add to app.state in one place
 # to keep it consistent and allow for refactoring without breaking other code
+DATAVERSE = None
 
 
 async def build_app(

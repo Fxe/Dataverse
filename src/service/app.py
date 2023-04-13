@@ -21,6 +21,10 @@ from src.service import errors, app_state
 from src.service import models_errors
 from src.utils.config import DataverseServiceConfig
 from src.utils.timestamp import timestamp
+from src.service.dataverse import Dataverse
+from src.utils.data_handlers.arm_handler2 import ARMHandler2
+from src.utils.data_handlers.kbase_handler2 import KBaseHandler2
+from fastapi.middleware.cors import CORSMiddleware
 
 _DATAVERSE_DEPLOYMENT_CONFIG = "DATAVERSE_DEPLOYMENT_CONFIG"
 
@@ -36,11 +40,18 @@ def create_app(noop=False):
         # temporary for prototype status. Eventually need full test suite with
         # config file, all service dependencies, etc.
         return
-
+    """
     with open(os.environ.get(_DATAVERSE_DEPLOYMENT_CONFIG, 'dataverse_config.toml'), 'rb') as cfgfile:
         cfg = DataverseServiceConfig(cfgfile)
     cfg.print_config(sys.stdout)
     sys.stdout.flush()
+    """
+    cfg = DataverseServiceConfig(None, "", "https://ci.kbase.us/services/ws")
+
+    dataverse = Dataverse()
+    dataverse.register_handler('ARM', ARMHandler2)
+    dataverse.register_handler('KBase', KBaseHandler2)
+    app_state.DATAVERSE = dataverse
 
     app = FastAPI(
         title=SERVICE_NAME,
@@ -59,6 +70,16 @@ def create_app(noop=False):
         }
     )
     app.include_router(ROUTER_DATA)
+
+    origins = ["*"]
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"]
+    )
 
     async def build_app_wrapper():
         await app_state.build_app(app, cfg)

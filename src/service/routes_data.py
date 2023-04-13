@@ -57,32 +57,71 @@ async def root():
     }
 
 
+@ROUTER_DATA.get("/data2")
+def list_providers():
+    return app_state.DATAVERSE.list_handlers()
+
+
+@ROUTER_DATA.post("/data2/{provider}/{path}")
+async def retrieve_data2(request: common_params.RequestObject,
+                    provider: str = common_params.PATH_PROVIDER,
+                   path: str = common_params.PATH_PROVIDER,
+                   auth_token: Optional[str] = common_params.HEADER_AUTH_TOKEN,
+                   auth_user: Optional[str] = common_params.HEADER_ARM_USERNAME,
+                   ):
+
+    args = {
+        'token': auth_token,
+        'user': auth_user,
+        'path': path,
+        'object_id': request.object_id,
+        'version': request.version
+    }
+    return app_state.DATAVERSE.resolve_path(provider, **args)
+
+
+@ROUTER_DATA.post("/data2/{provider}")
+async def retrieve_data2(request: common_params.RequestObject,
+                   provider: str = common_params.PATH_PROVIDER,
+                   auth_token: Optional[str] = common_params.HEADER_AUTH_TOKEN,
+                   auth_user: Optional[str] = common_params.HEADER_ARM_USERNAME,
+                   ):
+
+    args = {
+        'token': auth_token,
+        'user': auth_user,
+        'datastream': request.object_id,
+        'date_start': request.date_start,
+        'date_end': request.date_end
+    }
+    return app_state.DATAVERSE.resolve_path(provider, **args)
+
+
 @ROUTER_DATA.get("/data/{provider}", response_model=RetrievedData)
 async def retrieve_data(r: Request,
                         provider: str = common_params.PATH_PROVIDER,
                         kbase_object_reference: Optional[str] = common_params.KBASE_OBJ_REF,
                         arm_datastream: Optional[str] = common_params.ARM_DATASREAM,
                         arm_acquire_date: Optional[str] = common_params.ARM_ACQ_DATE,
-                        kbase_auth_token: Optional[str] = common_params.HEADER_KBASE_AUTH_TOKEN,
-                        arm_auth_token: Optional[str] = common_params.HEADER_ARM_AUTH_TOKEN,
+                        auth_token: Optional[str] = common_params.HEADER_AUTH_TOKEN,
                         arm_username: Optional[str] = common_params.HEADER_ARM_USERNAME) -> RetrievedData:
     kbase_metadata, kbase_data, arm_data = list(), dict(), list()
 
     if provider == 'KBase':
         ws_url = app_state.get_workspace_url(r)
-        if not kbase_auth_token:
+        if not auth_token:
             raise MissingTokenError('Please provide KBase Auth Token')
 
-        kbase_handler = KBaseHandler(kbase_auth_token, ws_url=ws_url)
+        kbase_handler = KBaseHandler(auth_token, ws_url=ws_url)
 
         if not kbase_object_reference:
             raise MissingParameterError('Please provide KBase Object Reference')
         kbase_metadata, kbase_data = await kbase_handler.fetch_data(kbase_object_reference)
 
     elif provider == 'ARM':
-        if not (arm_username and arm_auth_token):
+        if not (arm_username and auth_token):
             raise MissingTokenError('Please provide ARM Auth Token and Username')
-        arm_handler = ARMHandler(arm_username, arm_auth_token)
+        arm_handler = ARMHandler(arm_username, auth_token)
 
         if not (arm_datastream and arm_acquire_date):
             raise MissingParameterError('Please provide ARM Datastream and Acquire Date')

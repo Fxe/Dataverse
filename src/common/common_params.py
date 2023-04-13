@@ -1,9 +1,18 @@
 from fastapi import Path, Header, Query
+from pydantic import BaseModel
 
 PROVIDERS = ["KBase", "ESGF", "ARM"]
 
+
+class RequestObject(BaseModel):
+    object_id: str | None = None
+    date_end: str | None = None
+    date_start: str | None = None
+    version: int | None = None
+
+
 PATH_PROVIDER = Path(
-    default="KBase",
+    #default="KBase",
     example="KBase",
     description=f"Data provider from one of the following options: {PROVIDERS}."
 )
@@ -20,10 +29,16 @@ HEADER_ARM_AUTH_TOKEN = Header(
     alias="ARM-Auth-Token"
 )
 
+HEADER_AUTH_TOKEN = Header(
+    default=None,
+    description="Auth token",
+    alias="Auth-Token"
+)
+
 HEADER_ARM_USERNAME = Header(
     default=None,
-    description="The username to use for logging into the ADC archive.",
-    alias="ARM-Username"
+    description="Auth user",
+    alias="Username"
 )
 
 KBASE_OBJ_REF = Query(

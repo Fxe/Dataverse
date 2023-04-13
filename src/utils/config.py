@@ -23,20 +23,22 @@ class DataverseServiceConfig:
     kbase_workspace_url: str - the URL of the KBase Workspace service.
     """
 
-    def __init__(self, config_file: BinaryIO):
+    def __init__(self, config_file: BinaryIO, service_root_path=None, kbase_workspace_url=None):
         """
         Create the configuration parser.
         config_file - an open file-like object, opened in binary mode, containing the TOML
             config file data.
         """
-        if not config_file:
-            raise ValueError("config_file is required")
-        config = tomli.load(config_file)
-        _check_missing_section(config, _SEC_SERVICE)
-        _check_missing_section(config, _SEC_SERVICE_DEPS)
+        if config_file:
+            config = tomli.load(config_file)
+            _check_missing_section(config, _SEC_SERVICE)
+            _check_missing_section(config, _SEC_SERVICE_DEPS)
 
-        self.service_root_path = _get_string_optional(config, _SEC_SERVICE, "root_path")
-        self.kbase_workspace_url = _get_string_required(config, _SEC_SERVICE_DEPS, "kbase_workspace_url")
+            self.service_root_path = _get_string_optional(config, _SEC_SERVICE, "root_path")
+            self.kbase_workspace_url = _get_string_required(config, _SEC_SERVICE_DEPS, "kbase_workspace_url")
+        else:
+            self.service_root_path = service_root_path
+            self.kbase_workspace_url = kbase_workspace_url
 
     def print_config(self, output: TextIO):
         """
@@ -77,7 +79,7 @@ def _get_string_optional(config, section, key) -> Optional[str]:
 
 
 # assumes section exists
-def _get_list_string(config, section, key) -> list[str]:
+def _get_list_string(config, section, key) -> list:
     putative = _get_string_optional(config, section, key)
     if not putative:
         return []

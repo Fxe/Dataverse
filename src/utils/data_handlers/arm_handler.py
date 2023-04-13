@@ -19,6 +19,18 @@ class ARMHandler(DataHandler):
 
         return df
 
+    async def query(self):
+        """
+        Query Datastream
+        """
+        pass
+
+    async def fetch_file(self):
+        """
+        Fetch Datastream file
+        """
+        pass
+
     async def _fetch_obj_from_arm(self, datastream, date):
         with tempfile.TemporaryDirectory() as tmp_dir:
             try:
