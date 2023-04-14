@@ -75,24 +75,22 @@ async def retrieve_data2(request: common_params.RequestObject,
         'user': auth_user,
         'path': path,
         'object_id': request.object_id,
-        'version': request.version
+        'version': request.version,
+        'date_start': request.date_start,
+        'date_end': request.date_end
     }
     return app_state.DATAVERSE.resolve_path(provider, **args)
 
 
 @ROUTER_DATA.post("/data2/{provider}")
-async def retrieve_data2(request: common_params.RequestObject,
-                   provider: str = common_params.PATH_PROVIDER,
-                   auth_token: Optional[str] = common_params.HEADER_AUTH_TOKEN,
-                   auth_user: Optional[str] = common_params.HEADER_ARM_USERNAME,
-                   ):
+async def retrieve_data2(provider: str = common_params.PATH_PROVIDER,
+                         auth_token: Optional[str] = common_params.HEADER_AUTH_TOKEN,
+                         auth_user: Optional[str] = common_params.HEADER_ARM_USERNAME,
+                         ):
 
     args = {
         'token': auth_token,
-        'user': auth_user,
-        'datastream': request.object_id,
-        'date_start': request.date_start,
-        'date_end': request.date_end
+        'user': auth_user
     }
     return app_state.DATAVERSE.resolve_path(provider, **args)
 

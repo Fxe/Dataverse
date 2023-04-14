@@ -71,7 +71,7 @@ class ARMHandler2(DataHandler):
                 'https://adc.arm.gov/armlive/livedata/' + 'saveData?user={0}&file={1}'
         ).format(':'.join([self.auth_user, self.auth_token]), fname)
         data = urlopen(save_data_url).read()
-        return [{'id': fname, 'type': 'data', 'data': data}]
+        return [{'id': fname, 'type': 'data', 'data': data.hex(), 'd': 'cdf hex string'}]
 
     def _fetch_datastream(self, datastream, date_start=None, date_end=None):
         from datetime import timedelta
@@ -91,6 +91,7 @@ class ARMHandler2(DataHandler):
                 end = end_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
                 end = f'&end={end}'
         # print(datastream, start, end)
+        print(start, end)
         query_url = (
                 'https://adc.arm.gov/armlive/livedata/query?' + 'user={0}&ds={1}{2}{3}&wt=json'
         ).format(':'.join([self.auth_user, self.auth_token]), datastream, start, end)
@@ -99,6 +100,7 @@ class ARMHandler2(DataHandler):
         if response.status_code == 200:
             response_body_json = response.json()
             if 'files' in response_body_json:
+                print(len(response_body_json['files']))
                 return [{'id': s, 'd': s, 'owner': 'nan', 't': 'nan', 'type': 'file'} for s in
                         response_body_json['files']]
             else:
@@ -133,7 +135,7 @@ class ARMHandler2(DataHandler):
         # self.arm_username, self.arm_auth_token = arm_username, arm_auth_token
 
     def fetch_data(self, **kwargs):
-        datastream = kwargs.get('datastream', None)
+        datastream = kwargs.get('path', None)
         date_start = kwargs.get('date_start', None)
         date_end = kwargs.get('date_end', None)
         file = kwargs.get('object_id', None)

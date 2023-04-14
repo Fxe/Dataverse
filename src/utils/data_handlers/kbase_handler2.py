@@ -87,15 +87,20 @@ class KBaseHandler2(DataHandler):
         ws_id = kwargs.get('path', None)
         object_id = kwargs.get('object_id', None)
         version = kwargs.get('version', None)
-        print(ws_id, object_id, version)
+
+        # print(ws_id, object_id, version)
 
         if ws_id is None:  # list workspace if no ws
             res = self.ws.list_workspace_info({})
-            return [{'id': o[1], 'd': o[8]['narrative_nice_name'], 'owner': o[2], 't': o[3], 'type': 'folder'} for o in
-                    res if 'narrative_nice_name' in o[8]]
+            object_list = []
+            for o in res:
+                if 'narrative_nice_name' in o[8]:
+                    item = {'id': o[1], 'd': o[8]['narrative_nice_name'], 'owner': o[2], 't': o[3], 'type': 'folder'}
+                    object_list.append(item)
+            return object_list
         elif object_id is None:  # list workspace objects if no object_id
             res = self.ws.list_workspace_objects({'workspace': ws_id})
-            return [{'id': o[0], 'd': o[0], 'owner': o[5], 't': o[2], 'type': 'file'} for o in res if
+            return [{'id': o[0], 'd': o[1], 'owner': o[5], 't': o[2], 'type': 'file'} for o in res if
                     not o[1].startswith('KBaseNarrative.Narrative')]
         elif version is None:  # get object lastest version
             obj_info, obj_data = self._fetch_obj_from_ws(object_id, ws_id)
