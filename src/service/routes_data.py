@@ -10,8 +10,8 @@ import src.common.common_params as common_params
 from src.common.version import VERSION
 from src.service import app_state
 from src.service.errors import MissingTokenError, IllegalParameterError, MissingParameterError
-from src.utils.data_handlers.arm_handler import ARMHandler
-from src.utils.data_handlers.kbase_handler import KBaseHandler
+#from src.utils.data_handlers.arm_handler import ARMHandler
+#from src.utils.data_handlers.kbase_handler import KBaseHandler
 from src.utils.timestamp import timestamp
 
 SERVICE_NAME = "ESS Dataverse"
@@ -110,7 +110,7 @@ async def retrieve_data(r: Request,
         if not auth_token:
             raise MissingTokenError('Please provide KBase Auth Token')
 
-        kbase_handler = KBaseHandler(auth_token, ws_url=ws_url)
+        kbase_handler = None # KBaseHandler(auth_token, ws_url=ws_url)
 
         if not kbase_object_reference:
             raise MissingParameterError('Please provide KBase Object Reference')
@@ -119,7 +119,7 @@ async def retrieve_data(r: Request,
     elif provider == 'ARM':
         if not (arm_username and auth_token):
             raise MissingTokenError('Please provide ARM Auth Token and Username')
-        arm_handler = ARMHandler(arm_username, auth_token)
+        arm_handler = None #ARMHandler(arm_username, auth_token)
 
         if not (arm_datastream and arm_acquire_date):
             raise MissingParameterError('Please provide ARM Datastream and Acquire Date')
@@ -144,7 +144,7 @@ async def save_data(r: Request,
         if not kbase_auth_token:
             raise MissingTokenError('Please provide KBase Auth Token')
 
-        kbase_handler = KBaseHandler(kbase_auth_token, ws_url=ws_url)
+        kbase_handler = None # KBaseHandler(kbase_auth_token, ws_url=ws_url)
 
         wsid, obj_data, provenance = save_obj.wsid, save_obj.obj_data, save_obj.provenance
 
